@@ -1,9 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const routes = require('./routes')
+const http = require('http');
+
+const routes = require('./routes');
+const { setupWebsocket } = require('./websocket');
 
 const app = express();
+const server = http.Server(app);
+
+setupWebsocket(server);
 
 mongoose.connect('mongodb+srv://lucasdavisan:WostwYHNJECxACn6@cluster0-wkrat.mongodb.net/week10?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -21,4 +27,4 @@ app.use(routes);
 // Route Params:req.params (Identinficar um recurso na alteração ou remoção),
 // Body: req.body (Dados para a criação ou alteração de um registro).
 
-app.listen(3333);
+server.listen(3333);
